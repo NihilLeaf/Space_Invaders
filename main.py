@@ -18,12 +18,14 @@ playerX_change = 0
 playerY_change = 0
 
 
-enimyImg = pygame.image.load('alien.png')
-enimyX = 30
-enimyY = random.randrange(00, 90)
+enimyImg = pygame.image.load('enimy.png')
+enimyX = random.randrange(60, 700)
+enimyY = random.randrange(30, 90)
+enimyX_change = 2
+enimyY_change = 25
 
-def enimy():
-    screen.blit(enimyImg, (enimyX, enimyY))
+def enimy(x, y):
+    screen.blit(enimyImg, (x, y))
 
 def player(x, y):
     screen.blit(playerImg, (x, y))
@@ -33,10 +35,9 @@ running = True
 
 while running:
 
+    screen.fill((20, 30, 29))
     clock = pygame.time.Clock()
     clock.tick(FPS)
-
-    screen.fill((20, 30, 29))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -59,7 +60,7 @@ while running:
             elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 playerY_change = 0
                 moving = False
-        
+
     playerX += playerX_change
     playerY += playerY_change
 
@@ -72,17 +73,18 @@ while running:
     elif playerY > 536:
         playerY = 536
 
-
-
-    enimies = 0
-    for i in range(7):
-        enimy()
-        if enimies < 7:
-            enimy()
-            enimyX += random.randrange(60, 90)
-        else:
-            pass
+    
 
     player(playerX, playerY)
-
+    enimy(enimyX, enimyY)
+    if enimyX > 736:
+        enimyY += enimyY_change
+        enimyY_change += 0
+        enimyX_change -= 2
+    if enimyX <= 0:
+        enimyX = 0
+        enimyY += enimyY_change
+        enimyY_change += 0
+        enimyX_change += 2
+    enimyX += enimyX_change
     pygame.display.update()
